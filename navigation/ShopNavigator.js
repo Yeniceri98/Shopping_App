@@ -11,6 +11,7 @@ import ProductsOverviewScreen from '../screens/shop/ProductsOverviewScreen';
 import ProductDetailsScreen from '../screens/shop/ProductDetailsScreen';
 import CartScreen from '../screens/shop/CartScreen';
 import OrdersScreen from '../screens/shop/OrdersScreen';
+import UserProductsScreen from '../screens/user/UserProductsScreen';
 
 
 const Stack = createStackNavigator();
@@ -60,7 +61,7 @@ export const ProductsNavigator = () => {
             />
 
             <Stack.Screen 
-                name="ProductDetailsScreen"
+                name="ProductDetail"
                 component={ProductDetailsScreen}
                 options={({ route }) => ({ title: route.params.productTitle })}     // ProductsOverviewScreen.js'den aldığımız "productTitle" paramıyla dinamik bir başlık elde ettik
             />
@@ -116,6 +117,45 @@ export const OrdersNavigator = () => {
 }
 
 
+// Bunu da Drawer Navigator'a atadık
+export const AdminNavigator = () => {
+    return (
+        <Stack.Navigator
+            screenOptions={{
+                headerStyle: {
+                    backgroundColor: Colors.primary
+                },
+                headerTintColor: "white",
+                headerTitleStyle: {
+                    fontSize: 22,
+                    fontWeight: "bold",
+                }
+            }}
+        >
+            <Stack.Screen 
+                name="UserProductsScreen"
+                component={UserProductsScreen}
+                options={({ navigation }) => ({
+                    title: "User Products",
+                    headerLeft: () => (
+                        <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+                            <Item 
+                                title="Create"
+                                iconName="create"
+                                onPress={() => {
+                                    navigation.openDrawer()     
+                                }}
+                            />
+                        </HeaderButtons>
+                    ),
+                    
+                })}
+            />
+        </Stack.Navigator>
+    )
+}
+
+
 const Drawer = createDrawerNavigator();
 
 export const DrawerNavigator = () => {
@@ -144,6 +184,14 @@ export const DrawerNavigator = () => {
                 options={{
                     title: "Orders",
                     drawerIcon: config => <AntDesign name="shoppingcart" size={24} color="black" />
+                }}
+            />
+            <Drawer.Screen 
+                name="UserProductsScreen"
+                component={AdminNavigator}
+                options={{
+                    title: "User Products",
+                    drawerIcon: config => <AntDesign name="user" size={24} color="black" />
                 }}
             />
         </Drawer.Navigator>
