@@ -8,12 +8,14 @@ import { Provider } from 'react-redux';
 import { ProductsNavigator } from './navigation/ShopNavigator';
 import productsReducer from './store/reducers/productsReducer';
 import cartReducer from './store/reducers/cartReducer';
+import ordersReducer from './store/reducers/ordersReducer';
 
 
 // REDUX
 const rootReducer = combineReducers({
     products: productsReducer,
-    cart: cartReducer
+    cart: cartReducer,
+    orders: ordersReducer
 })
 
 

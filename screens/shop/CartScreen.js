@@ -3,7 +3,8 @@ import { Button, StyleSheet, Text, View, FlatList } from 'react-native'
 import { useSelector, useDispatch } from 'react-redux';
 import Colors from '../../constants/Colors';
 import CartItem from '../../components/shop/CartItem';
-import * as cartActions from '../../store/actions/cartActions';     // Dispatch işlemi için import ettik
+import * as cartActions from '../../store/actions/cartActions';             // Dispatch işlemi için import ettik
+import * as ordersActions from '../../store/actions/ordersActions';         // Dispatch işlemi için import ettik
 
 
 const CartScreen = () => {
@@ -39,6 +40,9 @@ const CartScreen = () => {
                 color={Colors.primary}
                 title="Order Now"
                 disabled={cartItems.length === 0}
+                onPress={() => {
+                    dispatch(ordersActions.addOrder(cartItems, cartTotalAmount))        // 2 parametre alıyordu
+                }}
             />
             <FlatList 
                 data={cartItems}
