@@ -1,8 +1,9 @@
 import React from 'react';
 import { Platform } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
+import Colors from '../constants/Colors';
 import ProductsOverviewScreen from '../screens/shop/ProductsOverviewScreen';
-import Colors from '../constants/colors';
+import ProductDetailsScreen from '../screens/shop/ProductDetailsScreen';
 
 
 const Stack = createStackNavigator();
@@ -10,7 +11,7 @@ const Stack = createStackNavigator();
 export const ProductsNavigator = () => {
     return (
         <Stack.Navigator
-            screenOptions={{        // Bu navigator'a ait tüm ekranlar için template niteliğindedir
+            screenOptions={{        // Bu navigator'a ait tüm screenler için template niteliğindedir
                 headerStyle: {
                     backgroundColor: Platform.OS === 'android' ? Colors.primary : ''
                 },
@@ -27,6 +28,12 @@ export const ProductsNavigator = () => {
                 options={{
                     title: "Products"       // Tab ismini bu şekilde değiştirebiliriz
                 }}
+            />
+
+            <Stack.Screen 
+                name="ProductDetail"
+                component={ProductDetailsScreen}
+                options={({ route }) => ({ title: route.params.productTitle })}     // ProductsOverviewScreen.js'den aldığımız "productTitle" paramıyla dinamik bir başlık elde ettik
             />
         </Stack.Navigator>
     )
