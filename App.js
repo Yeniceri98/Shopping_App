@@ -5,7 +5,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStore, combineReducers } from 'redux';
 import { Provider } from 'react-redux';
 
-import { ProductsNavigator } from './navigation/ShopNavigator';
+import { DrawerNavigator, ProductsNavigator } from './navigation/ShopNavigator';
 import productsReducer from './store/reducers/productsReducer';
 import cartReducer from './store/reducers/cartReducer';
 import ordersReducer from './store/reducers/ordersReducer';
@@ -47,11 +47,13 @@ export default function App() {
     return (
         <Provider store={store}>
             <NavigationContainer>
-                <ProductsNavigator />
+                {/* <ProductsNavigator /> */}
+                <DrawerNavigator />
             </NavigationContainer>
         </Provider>
     );
 }
+
 
 
 // _____ İNDİRİLENLER _____

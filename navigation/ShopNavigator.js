@@ -1,12 +1,16 @@
 import React from 'react';
-import { Platform } from 'react-native';
+import { useWindowDimensions, Platform } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
+import { createDrawerNavigator } from '@react-navigation/drawer';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import CustomHeaderButton from '../components/UI/CustomHeaderButton';
 import Colors from '../constants/Colors';
+import { Fontisto } from '@expo/vector-icons';
+import { AntDesign } from '@expo/vector-icons';
 import ProductsOverviewScreen from '../screens/shop/ProductsOverviewScreen';
 import ProductDetailsScreen from '../screens/shop/ProductDetailsScreen';
 import CartScreen from '../screens/shop/CartScreen';
+import OrdersScreen from '../screens/shop/OrdersScreen';
 
 
 const Stack = createStackNavigator();
@@ -41,11 +45,22 @@ export const ProductsNavigator = () => {
                             />
                         </HeaderButtons>
                     ),
+                    headerLeft: () => (
+                        <HeaderButtons HeaderButtonComponent={CustomHeaderButton} >
+                            <Item 
+                                title="Menu"
+                                iconName="menu"
+                                onPress={() => {
+                                    navigation.openDrawer()     // Drawer sekmesini açar
+                                }}
+                            />
+                        </HeaderButtons>
+                    )
                 })}
             />
 
             <Stack.Screen 
-                name="ProductDetail"
+                name="ProductDetailsScreen"
                 component={ProductDetailsScreen}
                 options={({ route }) => ({ title: route.params.productTitle })}     // ProductsOverviewScreen.js'den aldığımız "productTitle" paramıyla dinamik bir başlık elde ettik
             />
@@ -54,9 +69,83 @@ export const ProductsNavigator = () => {
                 name="CartScreen" 
                 component={CartScreen} 
                 options={{
-                    title: "Products",
+                    title: "Cart",
                 }}     
             />
         </Stack.Navigator>
+    )
+}
+
+
+// 2. bir Stack Navigator oluşturuyoruz. Sonrasında Stack Navigator'ları, Drawer Navigator'a atayacağız
+export const OrdersNavigator = () => {
+    return (
+        <Stack.Navigator
+            screenOptions={{
+                headerStyle: {
+                    backgroundColor: Colors.primary
+                },
+                headerTintColor: "white",
+                headerTitleStyle: {
+                    fontSize: 22,
+                    fontWeight: "bold",
+                }
+            }}
+        >
+            <Stack.Screen 
+                name="OrdersScreen"
+                component={OrdersScreen}
+                options={({ navigation }) => ({
+                    title: "Orders",
+                    headerLeft: () => (
+                        <HeaderButtons HeaderButtonComponent={CustomHeaderButton} >
+                            <Item 
+                                title="Menu"
+                                iconName="menu"
+                                onPress={() => {
+                                    navigation.openDrawer()     
+                                }}
+                            />
+                        </HeaderButtons>
+                    ),
+                    
+                })}
+            />
+        </Stack.Navigator>
+    )
+}
+
+
+const Drawer = createDrawerNavigator();
+
+export const DrawerNavigator = () => {
+    const dimensions = useWindowDimensions();      // Alttaki "drawerType" kısmında kullanacağız. En yukarıda da import ettik. NOT: Ekstra property bilgisidir, kullanılması şart değil. Cihaz boyutu 768'den büyükse "permanent" küçükse "slide" draweType'ını kullanacak
+
+    return (
+        <Drawer.Navigator
+            initialRouteName="ProductsOverview"
+            drawerType={dimensions.width >= 768 ? "permanent" : "slide"}        // permanent'ta drawer navigator direkt açık şekilde geliyor ve kapanmıyor
+            drawerStyle={{
+                backgroundColor: "lavender",
+                width: 220      // Açılan navigasyonun boyutu
+            }}
+        >
+            <Drawer.Screen 
+                name="ProductsOverview" 
+                component={ProductsNavigator}
+                options={{
+                    title: "Products",
+                    drawerIcon: config => <Fontisto name="product-hunt" size={24} color="black" />
+                }}
+            />
+            <Drawer.Screen 
+                name="OrdersScreen" 
+                component={OrdersNavigator} 
+                options={{
+                    title: "Orders",
+                    drawerIcon: config => <AntDesign name="shoppingcart" size={24} color="black" />
+                }}
+            />
+        </Drawer.Navigator>
     )
 }
