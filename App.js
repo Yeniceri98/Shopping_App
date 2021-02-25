@@ -1,9 +1,12 @@
-import React from 'react';
-import { Text, View } from 'react-native';
+import React, { useState } from 'react';
+import * as Font from 'expo-font';                          // Custom Font için ekledik  ----->  expo install expo-font
+import AppLoading from 'expo-app-loading';                  // Custom Font kullanmak için ekledik  ----->  expo install expo-app-loading  
+import { NavigationContainer } from '@react-navigation/native';
 import { createStore, combineReducers } from 'redux';
 import { Provider } from 'react-redux';
 
 import productsReducer from './store/reducers/productsReducer';
+import { ProductsNavigator } from './navigation/ShopNavigator';
 
 
 // REDUX
@@ -36,10 +39,12 @@ export default function App() {
             />
         )
     }
-    
+
     return (
         <Provider store={store}>
-            <View>...</View>
+            <NavigationContainer>
+                <ProductsNavigator />
+            </NavigationContainer>
         </Provider>
     );
 }
