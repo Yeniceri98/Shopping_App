@@ -17,7 +17,7 @@ const ProductsOverviewScreen = (props) => {
                     title={itemData.item.title}
                     price={itemData.item.price}
                     onViewDetails={() => {
-                        props.navigation.navigate('ProductDetailscreen', {
+                        props.navigation.navigate('ProductDetailsScreen', {
                             productId: itemData.item.id,              // "ProductDetails" sayfasına "productId" paramını yolladık
                             productTitle: itemData.item.title         // Tıklanan ürünün adını navigation başlığında görebilmek için param yolluyoruz. Bu paramı ShopNavigator.js'in içindeki "options" kısmında alıyoruz
                         })
