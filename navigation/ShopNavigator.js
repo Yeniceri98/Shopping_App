@@ -31,7 +31,7 @@ export const ProductsNavigator = () => {
             />
 
             <Stack.Screen 
-                name="ProductDetail"
+                name="ProductDetailsScreen"
                 component={ProductDetailsScreen}
                 options={({ route }) => ({ title: route.params.productTitle })}     // ProductsOverviewScreen.js'den aldığımız "productTitle" paramıyla dinamik bir başlık elde ettik
             />
