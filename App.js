@@ -1,14 +1,47 @@
-import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { Text, View } from 'react-native';
+import { createStore, combineReducers } from 'redux';
+import { Provider } from 'react-redux';
+
+import productsReducer from './store/reducers/productsReducer';
+
+
+// REDUX
+const rootReducer = combineReducers({
+    products: productsReducer,
+})
+
+
+const store = createStore(rootReducer);
+
+
+// CUSTOM FONTS
+const fetchFonts = () => {
+    return Font.loadAsync({
+        'Font-Regular': require('./assets/LibreBaskerville-Regular.ttf'),
+        'Font-Bold': require('./assets/LibreBaskerville-Bold.ttf')
+    })
+}
+
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+    const [fontLoaded, setFontLoaded] = useState(false);
+
+    if (!fontLoaded) {
+        return (
+            <AppLoading 
+                startAsync={fetchFonts}
+                onFinish={() => setFontLoaded(true)}
+                onError={() => console.log(err)}
+            />
+        )
+    }
+    
+    return (
+        <Provider store={store}>
+            <View>...</View>
+        </Provider>
+    );
 }
 
 
