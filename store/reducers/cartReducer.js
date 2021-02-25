@@ -1,4 +1,4 @@
-import { ADD_TO_CART } from "../actions/cartActions";
+import { ADD_TO_CART, REMOVE_FROM_CART } from "../actions/cartActions";
 import CartItem from '../../models/cart-item';
 
 const initialState = {
@@ -36,6 +36,37 @@ export default cartReducer = (state = initialState, action) => {
                 items: { ...state.items, [addedProduct.id]: updatedOrNewCartItem  },      // [addedProduct.id]  ----->  Dynamic property
                 totalAmount: state.totalAmount + prodPrice
             }
+        
+            case REMOVE_FROM_CART:
+                const selectedCartItem = state.items[action.pid];     // "pid", cartAction.js'den geldi
+                
+                const currentQty = selectedCartItem.quantity;
+    
+                let updatedCartItems;
+    
+                // Eğer sepete eklenen ürün 1'den fazlaysa, delete butonuna basınca tamamını silmez ve o itemden 1 eksiltir
+                if (currentQty > 1) {
+                    const updatedCartItem = new CartItem(
+                        selectedCartItem.quantity - 1,
+                        selectedCartItem.productPrice,
+                        selectedCartItem.productTitle,
+                        selectedCartItem.sum - selectedCartItem.productPrice
+                    )
+    
+                    updatedCartItems = { ...state.items, [action.pid]: updatedCartItem }
+                }
+    
+                // Eğer sepete eklenen üründen 1 adet varsa, delete butonuna basınca tamamı silinir
+                else {
+                    updatedCartItems = { ...state.items };
+                    delete updatedCartItems[action.pid]
+                }
+    
+                return {
+                    ...state,
+                    items: updatedCartItems,
+                    totalAmount: state.totalAmount - selectedCartItem.productPrice
+                }
         default:
             return state;
     }

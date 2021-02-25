@@ -1,8 +1,9 @@
 import React from 'react'
 import { Button, StyleSheet, Text, View, FlatList } from 'react-native'
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import Colors from '../../constants/Colors';
 import CartItem from '../../components/shop/CartItem';
+import * as cartActions from '../../store/actions/cartActions';     // Dispatch işlemi için import ettik
 
 
 const CartScreen = () => {
@@ -21,8 +22,11 @@ const CartScreen = () => {
             })
         }
 
-        return transformedCartItems;
+        // return transformedCartItems;
+        return transformedCartItems.sort((a, b) => a.productId > b.productId ? 1 : -1);     // Sepete eklenen ürünleri silerken her seferinde sıralamanın değişmemesi için sort metodunu kullandık
     })
+
+    const dispatch = useDispatch();
 
     return (
         <View style={styles.container}>
@@ -44,7 +48,9 @@ const CartScreen = () => {
                         quantity={itemData.item.quantity}
                         title={itemData.item.productTitle}
                         amount={itemData.item.sum}
-                        onRemove={() => {}}
+                        onRemove={() => {
+                            dispatch(cartActions.removeFromCart(itemData.item.productId));
+                        }}
                     />
                 )}
             />
