@@ -5,7 +5,7 @@ import Colors from '../../constants/Colors'
 
 const ProductItem = (props) => {
     return (
-        <TouchableOpacity onPress={props.onViewDetails} activeOpacity={0.5}>    
+        <TouchableOpacity onPress={props.onSelect} activeOpacity={0.5} >     
             <View style={styles.container}>
                 <View style={styles.imageContainer}>
                     <Image style={styles.image} source={{ uri: props.image }} />
@@ -15,8 +15,22 @@ const ProductItem = (props) => {
                     <Text style={styles.price}>${props.price.toFixed(2)}</Text>
                 </View>
                 <View style={styles.buttonContainer}>
-                    <Button color={Colors.secondary} title="View Details" onPress={props.onViewDetails} />
-                    <Button color={Colors.secondary} title="To Cart" onPress={props.onAddToCart} />
+                    {/* <Button 
+                        color={Colors.secondary} 
+                        title="View Details" 
+                        onPress={props.onViewDetail} 
+                    />
+                    <Button 
+                        color={Colors.secondary} 
+                        title="To Cart" 
+                        onPress={props.onAddToCart} 
+                    /> */
+                    
+                    // NOT: Yukarıyı yorum satırına aldım çünkü buton atamalarını "Products" ve "User Products" sayfaları için farklı yapacağız
+                    // NOT: O yüzden aşağıya direkt props.children dedik
+                    }
+
+                    {props.children}
                 </View>
             </View>
         </TouchableOpacity>

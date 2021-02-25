@@ -9,6 +9,8 @@ import * as productsActions from '../../store/actions/productsActions';
 const UserProductsScreen = () => {
     const userProducts = useSelector(state => state.products.userProducts);     // Şimdilik sadece ownerId'nin u1 olduğu ürünleri listeler (productsReducer.js'de dummy bir şekilde oluşturmuştuk)
 
+    const dispatch = useDispatch();
+
     return (
         <FlatList 
             data={userProducts}
@@ -20,11 +22,30 @@ const UserProductsScreen = () => {
                     price={itemData.item.price}
                     onViewDetails={() => {}}
                     onAddToCart={() => {}}
-                />
+                >
+                    <Button 
+                        color={Colors.primary} 
+                        title="Edit" 
+                        onPress={() => {
+
+                        }} />
+                    <Button 
+                        color={Colors.primary}
+                        title="Delete"
+                        onPress={() => {
+                            dispatch(productsActions.deleteProduct(itemData.item.id))
+                        }}
+                    />
+                </ProductItem>
+
+                // İlk başta <ProductItem /> componenti self closing tag şeklindeydi
+                // Sonrasında bunu değiştirdik çünkü <ProductItem /> daki butonların "Products" ve "User Products" sayfalarında farklı olmasını istedik
+                // Bu yüzden ProductsOverviewScreen.js ve UserProductsScreen.js'de, <ProductItem /> componentinde farklı buton atamaları yaptık
             )}
         />
     )
 }
+
 
 export default UserProductsScreen
 
