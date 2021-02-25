@@ -1,4 +1,5 @@
 import { ADD_TO_CART, REMOVE_FROM_CART } from "../actions/cartActions";
+import { ADD_ORDER } from "../actions/ordersActions";       // Başka bir reducer'ın action'ını import ettik
 import CartItem from '../../models/cart-item';
 
 const initialState = {
@@ -67,6 +68,10 @@ export default cartReducer = (state = initialState, action) => {
                     items: updatedCartItems,
                     totalAmount: state.totalAmount - selectedCartItem.productPrice
                 }
+            
+            case ADD_ORDER:               // Başka reducer'a ait action'ı bu şekilde kullanabiliriz. "Order Now" butonuna basıldığı zaman total amount kısmını temizleyecek. ordersReducer.js'de ise o butona basınca "Orders" screen'ine ürünün değerlerini yolluyordu
+                return initialState; 
+
         default:
             return state;
     }
