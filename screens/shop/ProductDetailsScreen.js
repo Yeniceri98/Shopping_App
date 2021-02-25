@@ -1,7 +1,8 @@
 import React from 'react'
 import { StyleSheet, Text, View, ScrollView, Button, Image } from 'react-native'
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import Colors from '../../constants/Colors';
+import * as cartActions from '../../store/actions/cartActions';      // "onAddToCart" kısmında dispatch yaparken ihtiyacımız olacak
 
 
 const ProductDetailScreen = (props) => {
@@ -11,6 +12,8 @@ const ProductDetailScreen = (props) => {
     const selectedProduct = useSelector(state => 
         state.products.availableProducts.find(prod => prod.id === productId
     ))
+
+    const dispatch = useDispatch();
 
     return (
         // <Text>{selectedProduct.title}</Text>
@@ -22,7 +25,9 @@ const ProductDetailScreen = (props) => {
                     style={styles.button}
                     color={Colors.primary}
                     title="Add to Chart"
-                    onPress={() => {}}
+                    onPress={() => {
+                        dispatch(cartActions(addToCart(selectedProduct)))     // "selectedProduct" cart'a eklemek istediğimiz şey
+                    }}
                 />
             </View>
             <Text style={styles.price}>${selectedProduct.price.toFixed(2)}</Text>  
