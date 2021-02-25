@@ -2,6 +2,7 @@ import React from 'react'
 import { StyleSheet, Text, View, Platform, TouchableOpacity } from 'react-native'
 import { Ionicons } from '@expo/vector-icons';
 
+
 const CartItem = (props) => {
     return (
         <View style={styles.container}>
@@ -12,7 +13,7 @@ const CartItem = (props) => {
             <View style={styles.itemData}>
                 <Text style={styles.mainText}>${props.amount.toFixed(2)}</Text>
                 
-                {   // CartScreen.js'den props alabilmek için bu şekilde dinamik olarak oluşturduk
+                {   
                     props.deletable && (
                         <TouchableOpacity style={styles.deleteButton} onPress={props.onRemove}>
                             <Ionicons 
@@ -22,6 +23,12 @@ const CartItem = (props) => {
                             />
                         </TouchableOpacity>
                     )
+
+                    // NOT: props.deletable şeklinde oluşturma sebebimiz:
+                    // OrderedItem.js'de <CartItem /> componentini kullanıyoruz
+                    // Fakat OrderedItem.js'de delete butonunun olmasını istemiyoruz
+                    // Bu yüzden OrdersScreen.js'de <OrderedItems /> componentini alırken delete simgesi olmuyor
+                    // CartScreen.js'de ise deletable prop'unu aldığımız için delete simgesi oluyor
                 }
             </View>
         </View>

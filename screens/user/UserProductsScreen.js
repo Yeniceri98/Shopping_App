@@ -6,10 +6,16 @@ import Colors from '../../constants/Colors';
 import * as productsActions from '../../store/actions/productsActions';
 
 
-const UserProductsScreen = () => {
+const UserProductsScreen = (props) => {
     const userProducts = useSelector(state => state.products.userProducts);     // Şimdilik sadece ownerId'nin u1 olduğu ürünleri listeler (productsReducer.js'de dummy bir şekilde oluşturmuştuk)
 
     const dispatch = useDispatch();
+
+    const editProductHandler = (id) => {
+        props.navigation.navigate('EditProductsScreen', {       // Touchable itemlere ve Edit butonuna basınca EditProductsScreen sayfasına yönlendirecek
+            itemId: id                                          // EditProductsScreen.js sayfasına "itemId" adlı param'ı yolluyoruz
+        })
+    }
 
     return (
         <FlatList 
@@ -20,14 +26,15 @@ const UserProductsScreen = () => {
                     image={itemData.item.imageURL}
                     title={itemData.item.title}
                     price={itemData.item.price}
-                    onViewDetails={() => {}}
-                    onAddToCart={() => {}}
+                    onSelect={() => {                             // UserProducts sayfasındaki touchable itemlere yollanan prop. Onlardan birine tıklayınca bu fonksiyonu triggerlıyor
+                        editProductHandler(itemData.item.id);
+                    }}
                 >
                     <Button 
                         color={Colors.primary} 
                         title="Edit" 
                         onPress={() => {
-
+                            editProductHandler(itemData.item.id);
                         }} />
                     <Button 
                         color={Colors.primary}

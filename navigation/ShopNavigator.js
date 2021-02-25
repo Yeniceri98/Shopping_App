@@ -12,6 +12,7 @@ import ProductDetailsScreen from '../screens/shop/ProductDetailsScreen';
 import CartScreen from '../screens/shop/CartScreen';
 import OrdersScreen from '../screens/shop/OrdersScreen';
 import UserProductsScreen from '../screens/user/UserProductsScreen';
+import EditProductsScreen from '../screens/user/EditProductsScreen';
 
 
 const Stack = createStackNavigator();
@@ -117,7 +118,7 @@ export const OrdersNavigator = () => {
 }
 
 
-// Bunu da Drawer Navigator'a atadık
+// UserProductsScreen ve EditProductsScreen sayfalarını atayacağız. Bunu da Drawer Navigator'a atadık
 export const AdminNavigator = () => {
     return (
         <Stack.Navigator
@@ -148,8 +149,26 @@ export const AdminNavigator = () => {
                             />
                         </HeaderButtons>
                     ),
+                    headerRight: () => (
+                        <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+                            <Item 
+                                title="Create"
+                                iconName="create"
+                                onPress={() => {
+                                    navigation.navigate('EditProductsScreen');     
+                                }}
+                            />
+                        </HeaderButtons>
+                    ),
                     
                 })}
+            />
+            <Stack.Screen 
+                name="EditProductsScreen"
+                component={EditProductsScreen}
+                options={{
+                    title: "Edit Products"
+                }}
             />
         </Stack.Navigator>
     )

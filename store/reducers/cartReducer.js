@@ -1,6 +1,7 @@
 import { ADD_TO_CART, REMOVE_FROM_CART } from "../actions/cartActions";
-import { ADD_ORDER } from "../actions/ordersActions";       // Başka bir reducer'ın action'ını import ettik
 import CartItem from '../../models/cart-item';
+import { ADD_ORDER } from "../actions/ordersActions";
+import { DELETE_PRODUCT } from "../actions/productsActions";
 
 const initialState = {
     items: {},
@@ -10,9 +11,9 @@ const initialState = {
 export default cartReducer = (state = initialState, action) => {
     switch (action.type) {
         case ADD_TO_CART:
-            const addedProduct = action.product;    // "product", cartAction.js'den geldi 
+            const addedProduct = action.product;          // "product", cartAction.js'den geldi 
             
-            const prodPrice = addedProduct.price
+            const prodPrice = addedProduct.price;
             const prodTitle = addedProduct.title;
 
             let updatedOrNewCartItem;
@@ -38,41 +39,57 @@ export default cartReducer = (state = initialState, action) => {
                 totalAmount: state.totalAmount + prodPrice
             }
         
-            case REMOVE_FROM_CART:
-                const selectedCartItem = state.items[action.pid];     // "pid", cartAction.js'den geldi
-                
-                const currentQty = selectedCartItem.quantity;
-    
-                let updatedCartItems;
-    
-                // Eğer sepete eklenen ürün 1'den fazlaysa, delete butonuna basınca tamamını silmez ve o itemden 1 eksiltir
-                if (currentQty > 1) {
-                    const updatedCartItem = new CartItem(
-                        selectedCartItem.quantity - 1,
-                        selectedCartItem.productPrice,
-                        selectedCartItem.productTitle,
-                        selectedCartItem.sum - selectedCartItem.productPrice
-                    )
-    
-                    updatedCartItems = { ...state.items, [action.pid]: updatedCartItem }
-                }
-    
-                // Eğer sepete eklenen üründen 1 adet varsa, delete butonuna basınca tamamı silinir
-                else {
-                    updatedCartItems = { ...state.items };
-                    delete updatedCartItems[action.pid]
-                }
-    
-                return {
-                    ...state,
-                    items: updatedCartItems,
-                    totalAmount: state.totalAmount - selectedCartItem.productPrice
-                }
+        case REMOVE_FROM_CART:
+            const selectedCartItem = state.items[action.pid];     // "pid", cartAction.js'den geldi
             
-            case ADD_ORDER:               // Başka reducer'a ait action'ı bu şekilde kullanabiliriz. "Order Now" butonuna basıldığı zaman total amount kısmını temizleyecek. ordersReducer.js'de ise o butona basınca "Orders" screen'ine ürünün değerlerini yolluyordu
-                return initialState; 
+            const currentQty = selectedCartItem.quantity;
+
+            let updatedCartItems;
+
+            // Eğer sepete eklenen ürün 1'den fazlaysa, delete butonuna basınca tamamını silmez ve o itemden 1 eksiltir
+            if (currentQty > 1) {
+                const updatedCartItem = new CartItem(
+                    selectedCartItem.quantity - 1,
+                    selectedCartItem.productPrice,
+                    selectedCartItem.productTitle,
+                    selectedCartItem.sum - selectedCartItem.productPrice
+                )
+
+                updatedCartItems = { ...state.items, [action.pid]: updatedCartItem }
+            }
+
+            // Eğer sepete eklenen üründen 1 adet varsa, delete butonuna basınca tamamı silinir
+            else {
+                updatedCartItems = { ...state.items };
+                delete updatedCartItems[action.pid]
+            }
+
+            return {
+                ...state,
+                items: updatedCartItems,
+                totalAmount: state.totalAmount - selectedCartItem.productPrice
+            }
+
+        case ADD_ORDER:                 // Başka reducer'a ait action'ı bu şekilde kullanabiliriz. "Order Now" butonuna basıldığı zaman total amount kısmını temizleyecek. ordersReducer.js'de ise o butona basınca "Orders" screen'ine ürünün değerlerini yolluyordu
+            return initialState;
+        
+        case DELETE_PRODUCT:            // Silinen ürünleri sepetten de silmek için bunu ekledik. Yine farklı reducer'a ait action'ı kullandık
+            if (!state.items[action.pid]) {
+                return state;
+            }
+
+            const updatedItems = { ...state.items };
+            const itemTotal = state.items[action.pid].sum;
+            delete updatedItems[action.pid];
+
+            return {
+                ...state,
+                items: updatedItems,
+                totalAmount: state.totalAmount - itemTotal
+            }
 
         default:
             return state;
+
     }
 }

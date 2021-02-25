@@ -33,7 +33,9 @@ const CartScreen = () => {
         <View style={styles.container}>
             <View style={styles.summary}>
                 <Text style={styles.summaryText}>
-                    Total: <Text style={styles.amount}>${cartTotalAmount.toFixed(2)}</Text>
+                    Total: <Text style={styles.amount}>${Math.round(cartTotalAmount.toFixed(2) * 100) / 100}</Text>     
+
+                    {/* NOT: Sepetten item silince -0.00 olarak gözüküyordu. Math.round ekleyip, 100 ile çarıp 100'e bölünce bu problem ortadan kalkar */}
                 </Text>
             </View>
             <Button 
@@ -52,6 +54,7 @@ const CartScreen = () => {
                         quantity={itemData.item.quantity}
                         title={itemData.item.productTitle}
                         amount={itemData.item.sum}
+                        deletable    // CartItem componentine dinamik bir şekilde "deletable" prop'unu yolluyoruz
                         onRemove={() => {
                             dispatch(cartActions.removeFromCart(itemData.item.productId));
                         }}
