@@ -155,7 +155,9 @@ export const AdminNavigator = () => {
                                 title="Create"
                                 iconName="create"
                                 onPress={() => {
-                                    navigation.navigate('EditProductsScreen');     
+                                    navigation.navigate('EditProductsScreen', {     
+                                        productId: id       // Aşağı kısma UserProductsScreen.js'den alınan "productId" paramını yolluyoruz
+                                    });     
                                 }}
                             />
                         </HeaderButtons>
@@ -163,12 +165,22 @@ export const AdminNavigator = () => {
                     
                 })}
             />
-            <Stack.Screen 
-                name="EditProductsScreen"
+            <Stack.Screen  
+                name="EditProductsScreen"     
                 component={EditProductsScreen}
-                options={{
-                    title: "Edit Products"
-                }}
+                options={({ route }) => ({ title: route.params.productId,          // Dinamik bir başlık elde etmek için, UserProductsScreen.js'den "productId" adlı param aldık       
+                    headerRight: () => (
+                    <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+                        <Item 
+                            title="Check mark"
+                            iconName="md-checkmark"
+                            onPress={() => {
+                                console.log("Submitted")
+                            }}
+                        />
+                    </HeaderButtons>
+                )})}      
+    
             />
         </Stack.Navigator>
     )
@@ -182,7 +194,7 @@ export const DrawerNavigator = () => {
 
     return (
         <Drawer.Navigator
-            initialRouteName="ProductsOverview"
+            initialRouteName="ProductsOverviewScreen"
             drawerType={dimensions.width >= 768 ? "permanent" : "slide"}        // permanent'ta drawer navigator direkt açık şekilde geliyor ve kapanmıyor
             drawerStyle={{
                 backgroundColor: "lavender",

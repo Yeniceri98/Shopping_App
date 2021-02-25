@@ -12,8 +12,8 @@ const ProductsOverviewScreen = (props) => {
     const dispatch = useDispatch();
 
     const selectItemHandler = (id, title) => {
-        props.navigation.navigate('ProductDetails', {
-            productId: id,
+        props.navigation.navigate('ProductDetailsScreen', {
+            productId: id,          
             productTitle: title
         })
     }
