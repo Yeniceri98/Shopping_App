@@ -1,4 +1,4 @@
-import { ADD_TO_CART, REMOVE_FROM_CART } from "../actions/cartActions";
+import { ADD_TO_CART } from "../actions/cartActions";
 import CartItem from '../../models/cart-item';
 
 const initialState = {
@@ -36,5 +36,7 @@ export default cartReducer = (state = initialState, action) => {
                 items: { ...state.items, [addedProduct.id]: updatedOrNewCartItem  },      // [addedProduct.id]  ----->  Dynamic property
                 totalAmount: state.totalAmount + prodPrice
             }
+        default:
+            return state;
     }
 }

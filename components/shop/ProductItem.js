@@ -5,7 +5,7 @@ import Colors from '../../constants/Colors'
 
 const ProductItem = (props) => {
     return (
-        <TouchableOpacity onPress={props.onSelect} activeOpacity={0.5} >
+        <TouchableOpacity onPress={props.onViewDetails} activeOpacity={0.5}>    
             <View style={styles.container}>
                 <View style={styles.imageContainer}>
                     <Image style={styles.image} source={{ uri: props.image }} />
@@ -15,11 +15,13 @@ const ProductItem = (props) => {
                     <Text style={styles.price}>${props.price.toFixed(2)}</Text>
                 </View>
                 <View style={styles.buttonContainer}>
-                    <Button color={Colors.primary} title="View Details" onPress={props.onViewDetails} />
-                    <Button color={Colors.primary} title="To Chart" onPress={props.ononAddtoCart} />
+                    <Button color={Colors.secondary} title="View Details" onPress={props.onViewDetails} />
+                    <Button color={Colors.secondary} title="To Cart" onPress={props.onAddToCart} />
                 </View>
             </View>
         </TouchableOpacity>
+
+        // <TouchableOpacity /> ekleyerek, resme basınca da detayın gözükmesini sağladık
     )
 }
 

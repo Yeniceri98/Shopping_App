@@ -5,13 +5,15 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStore, combineReducers } from 'redux';
 import { Provider } from 'react-redux';
 
-import productsReducer from './store/reducers/productsReducer';
 import { ProductsNavigator } from './navigation/ShopNavigator';
+import productsReducer from './store/reducers/productsReducer';
+import cartReducer from './store/reducers/cartReducer';
 
 
 // REDUX
 const rootReducer = combineReducers({
     products: productsReducer,
+    cart: cartReducer
 })
 
 

@@ -5,13 +5,13 @@ import Colors from '../../constants/Colors';
 import * as cartActions from '../../store/actions/cartActions';      // "onAddToCart" kısmında dispatch yaparken ihtiyacımız olacak
 
 
-const ProductDetailScreen = (props) => {
+const ProductDetailsScreen = (props) => {
     // const productId = props.navigation.getParam('productId');     // Aşağıdaki kullanım güncel olandır. İkisi de aynı işlevi görür
     const { productId } = props.route.params;                        // ProductsOverviewScreen.js'den "productId" adlı paramı aldık
 
     const selectedProduct = useSelector(state => 
-        state.products.availableProducts.find(prod => prod.id === productId
-    ))
+        state.products.availableProducts.find(prod => prod.id === productId)
+    )
 
     const dispatch = useDispatch();
 
@@ -26,7 +26,7 @@ const ProductDetailScreen = (props) => {
                     color={Colors.primary}
                     title="Add to Chart"
                     onPress={() => {
-                        dispatch(cartActions(addToCart(selectedProduct)))     // "selectedProduct" cart'a eklemek istediğimiz şey
+                        dispatch(cartActions.addToCart(selectedProduct))     // "selectedProduct" cart'a eklemek istediğimiz şey
                     }}
                 />
             </View>
@@ -38,7 +38,7 @@ const ProductDetailScreen = (props) => {
     )
 }
 
-export default ProductDetailScreen
+export default ProductDetailsScreen
 
 const styles = StyleSheet.create({
     image: {
