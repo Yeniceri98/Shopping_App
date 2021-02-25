@@ -2,7 +2,6 @@ import React from 'react'
 import { StyleSheet, Text, View, Platform, TouchableOpacity } from 'react-native'
 import { Ionicons } from '@expo/vector-icons';
 
-
 const CartItem = (props) => {
     return (
         <View style={styles.container}>
@@ -12,13 +11,18 @@ const CartItem = (props) => {
             </View>
             <View style={styles.itemData}>
                 <Text style={styles.mainText}>${props.amount.toFixed(2)}</Text>
-                <TouchableOpacity style={styles.deleteButton} onPress={props.onRemove}>
-                    <Ionicons 
-                        name={Platform.OS === 'android' ? "md-trash" : "ios-trash"}
-                        size={24}
-                        color="red"
-                    />
-                </TouchableOpacity>
+                
+                {   // CartScreen.js'den props alabilmek için bu şekilde dinamik olarak oluşturduk
+                    props.deletable && (
+                        <TouchableOpacity style={styles.deleteButton} onPress={props.onRemove}>
+                            <Ionicons 
+                                name={Platform.OS === 'android' ? "md-trash" : "ios-trash"}
+                                size={24}
+                                color="red"
+                            />
+                        </TouchableOpacity>
+                    )
+                }
             </View>
         </View>
     )

@@ -5,6 +5,8 @@ import Colors from '../../constants/Colors';
 
 
 const OrderedItems = (props) => {
+    const [showDetails, setShowDetails] = useState(false);      // false iken order detaylarını göstermez
+
     return (    
         <View style={styles.container}>
             <View style={styles.summary}>
@@ -13,8 +15,25 @@ const OrderedItems = (props) => {
             </View>
             <Button 
                 color={Colors.primary} 
-                title="Show Details" 
-            />    
+                title={showDetails ? "Hide Details" : "Show Details"} 
+                onPress={() => {
+                    setShowDetails(prevState => !prevState);
+                }} 
+            />   
+            {
+                showDetails && (                                // showDetails = true olursa ayrıntıları gösterecek
+                    <View style={styles.details}>
+                        {props.items.map(cartItem => (
+                            <CartItem 
+                                key={cartItem.productId}        // Bu 4 satır, CartScreen.js'deki "cartItems" kısmından geliyor
+                                quantity={cartItem.quantity}      
+                                amount={cartItem.sum}
+                                title={cartItem.productTitle}
+                            />
+                        ))}
+                    </View>
+                )
+            } 
         </View>
     )
 }
