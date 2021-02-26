@@ -1,27 +1,43 @@
 import React, { useState , useEffect, useCallback } from 'react'
 import { StyleSheet, Text, View, TextInput, ScrollView } from 'react-native'
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import * as productsActions from '../../store/actions/productsActions';
 
 
 const EditProductsScreen = (props) => {
     const { productId } = props.route.params;       // UserProductsScreen.js'den "productId" adlı param'ı aldık
 
+
     const editedProduct = useSelector(state => state.products.userProducts.find(prod => prod.id === productId));       // productsReducer.js'den aldık
+
+    const dispatch = useDispatch();
+
 
     const [title, setTitle] = useState(editedProduct ? editedProduct.title : "");
     const [imageURL, setImageURL] = useState(editedProduct ? editedProduct.imageURL: "");
     const [price, setPrice] = useState("");
     const [description, setDescription] = useState(editedProduct ? editedProduct.description : "");
 
+
     const submitHandler = useCallback(() => {
-        console.log("Submitted");
-    }, [])
+        if (editedProduct) {
+            dispatch(productsActions.updateProduct(productId, title, description, imageURL))    // Update
+        }
+
+        else {
+            dispatch(productsActions.createProduct(title, description, imageURL, +price))       // Create
+        }
+        
+        props.navigation.goBack();
+    }, [dispatch, productId, title, description, imageURL, price])
+
 
     useEffect(() => {
         props.navigation.setParams({
             submit: submitHandler
         })
     }, [submitHandler])
+
 
     return (
         <ScrollView>

@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, Text, View, FlatList, Button } from 'react-native'
+import { StyleSheet, Text, View, FlatList, Button, Alert } from 'react-native'
 import { useSelector, useDispatch } from 'react-redux';
 import ProductItem from '../../components/shop/ProductItem';
 import Colors from '../../constants/Colors';
@@ -15,6 +15,23 @@ const UserProductsScreen = (props) => {
         props.navigation.navigate('EditProductsScreen', {       // Touchable itemlere ve Edit butonuna basınca EditProductsScreen sayfasına yönlendirecek
             productId: id                                       // EditProductsScreen sayfasına "productId" adlı param'ı yolluyoruz. Param'ı ShopNavigator.js'de alacağız
         })
+    }
+
+    const deleteHandler = (id) => {
+        Alert.alert("Are you sure?", "Do you really want to delete this item?", 
+        [
+            { 
+                text: "No", 
+                style: "default"
+            },
+            { 
+                text: "Yes", 
+                state: "destructive", 
+                onPress: () => {
+                    dispatch(productsActions.deleteProduct(id))
+                }   
+            }
+        ])
     }
 
     return (
@@ -39,8 +56,20 @@ const UserProductsScreen = (props) => {
                     <Button 
                         color={Colors.primary}
                         title="Delete"
+                        
+                        // onPress={() => {
+                        //     dispatch(productsActions.deleteProduct(itemData.item.id))
+                        // }}
+
+                        // NOT: Alert ekledikten sonra yukarıdaki satırı yoruma aldım
+                        // Yukarıdaki "deleteHandler" fonksiyonuna 2 şekilde parametre yollayabiliriz:
+                        
+                        // 1. Yöntem
+                        // onPress={deleteHandler.bind(this, itemData.item.id)}
+
+                        // 2. Yöntem
                         onPress={() => {
-                            dispatch(productsActions.deleteProduct(itemData.item.id))
+                            deleteHandler(itemData.item.id)
                         }}
                     />
                 </ProductItem>
