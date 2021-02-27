@@ -119,7 +119,8 @@ export const OrdersNavigator = () => {
 
 
 // UserProductsScreen ve EditProductsScreen sayfalarını atayacağız. Bunu da Drawer Navigator'a atadık
-export const AdminNavigator = () => {
+export const AdminNavigator = (props) => {
+    const submitFn = props.navigation.getParam('submit');
     return (
         <Stack.Navigator
             screenOptions={{
@@ -144,7 +145,7 @@ export const AdminNavigator = () => {
                                 title="Menu"
                                 iconName="menu"
                                 onPress={() => {
-                                    navigation.openDrawer()    // toggleDrawer() da aynı işlevi görür
+                                    navigation.openDrawer()     
                                 }}
                             />
                         </HeaderButtons>
@@ -174,9 +175,10 @@ export const AdminNavigator = () => {
                         <Item 
                             title="Check mark"
                             iconName="md-checkmark"
-                            onPress={() => {
-                                navigation.navigate('UserProductsScreen');
-                            }}
+                            // onPress={() => {
+                            //     navigation.navigate('UserProductsScreen')
+                            // }}
+                            onPress={submitFn}
                         />
                     </HeaderButtons>
                 )})}      
