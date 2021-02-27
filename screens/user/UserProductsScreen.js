@@ -13,7 +13,7 @@ const UserProductsScreen = (props) => {
 
     const editProductHandler = (id) => {
         props.navigation.navigate('EditProductsScreen', {       // Touchable itemlere ve Edit butonuna basınca EditProductsScreen sayfasına yönlendirecek
-            productId: id                                       // EditProductsScreen sayfasına "productId" adlı param'ı yolluyoruz. Param'ı ShopNavigator.js'de alacağız
+            productId: id                                       // EditProductsScreen sayfasına "productId" adlı param'ı yolluyoruz. Param'ı ShopNavigator.js'de alacağız. Buradan aldığımız param sayesinde edit kısmında ilgili iteme ait özellikleri görüntüleyebiliyoruz
         })
     }
 

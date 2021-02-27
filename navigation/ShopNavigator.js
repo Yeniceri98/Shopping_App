@@ -144,7 +144,7 @@ export const AdminNavigator = () => {
                                 title="Menu"
                                 iconName="menu"
                                 onPress={() => {
-                                    navigation.openDrawer()     
+                                    navigation.openDrawer()    // toggleDrawer() da aynı işlevi görür
                                 }}
                             />
                         </HeaderButtons>
@@ -156,7 +156,7 @@ export const AdminNavigator = () => {
                                 iconName="create"
                                 onPress={() => {
                                     navigation.navigate('EditProductsScreen', {     
-                                        productId: id       // Aşağı kısma UserProductsScreen.js'den alınan "productId" paramını yolluyoruz
+                                        // productId: id       // Aşağı kısma UserProductsScreen.js'den alınan "productId" paramını yolluyoruz
                                     });     
                                 }}
                             />
@@ -168,14 +168,14 @@ export const AdminNavigator = () => {
             <Stack.Screen  
                 name="EditProductsScreen"     
                 component={EditProductsScreen}
-                options={({ route }) => ({ title: route.params.productId,          // Dinamik bir başlık elde etmek için, UserProductsScreen.js'den "productId" adlı param aldık       
+                options={({ route, navigation }) => ({ title: route.params.productId,          // Dinamik bir başlık elde etmek için, UserProductsScreen.js'den "productId" adlı param aldık       
                     headerRight: () => (
                     <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
                         <Item 
                             title="Check mark"
                             iconName="md-checkmark"
                             onPress={() => {
-                                console.log("Submitted")
+                                navigation.navigate('UserProductsScreen');
                             }}
                         />
                     </HeaderButtons>

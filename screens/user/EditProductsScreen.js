@@ -6,9 +6,9 @@ import * as productsActions from '../../store/actions/productsActions';
 
 const EditProductsScreen = (props) => {
     const { productId } = props.route.params;       // UserProductsScreen.js'den "productId" adlı param'ı aldık
+    const prodId = productId
 
-
-    const editedProduct = useSelector(state => state.products.userProducts.find(prod => prod.id === productId));       // productsReducer.js'den aldık
+    const editedProduct = useSelector(state => state.products.userProducts.find(prod => prod.id === prodId));       // productsReducer.js'den aldık
 
     const dispatch = useDispatch();
 
@@ -21,15 +21,13 @@ const EditProductsScreen = (props) => {
 
     const submitHandler = useCallback(() => {
         if (editedProduct) {
-            dispatch(productsActions.updateProduct(productId, title, description, imageURL))    // Update
+            dispatch(productsActions.updateProduct(prodId, title, description, imageURL))       // Update
         }
 
         else {
             dispatch(productsActions.createProduct(title, description, imageURL, +price))       // Create
         }
-        
-        props.navigation.goBack();
-    }, [dispatch, productId, title, description, imageURL, price])
+    }, [dispatch, prodId, title, description, imageURL, price])
 
 
     useEffect(() => {
@@ -48,6 +46,11 @@ const EditProductsScreen = (props) => {
                         style={styles.input} 
                         value={title}    
                         onChangeText={text => setTitle(text)}
+                        keyboardType="default"      // Klavye tipini belirler (default, number-pad, decimal-pad, numeric, email-address, phone-pad) 
+                        returnKeyType="go"          // Klavyenin sağ altında yazan yazıyı belirler. (Default olan "Done" dır)
+                        autoCorrect
+                        onEndEditing={() => console.log("onEndEditing")}            // Yazmayı bitirip enter'a bastıktan sonra veya başka bir alana geçiş yaptıktan sonra bu property triggerlanır
+                        onSubmitEditing={() => console.log("onSubmitEditing")}      // Yukarıdakinin aksine sadece enter'a basınca triggerlanır
                     />
                 </View>
                 <View style={styles.form}>
@@ -59,14 +62,15 @@ const EditProductsScreen = (props) => {
                     />
                 </View>
                 
-                {
-                    editedProduct ? null : (          // editedProduct = true olunca "price" görüntülenmeyecek. useState kısmında böyle ayarladık. Yani "edit" butonuna basınca price gözükmeyecek. Sağ üstteki "add" simgesine tıklayınca gözükecek
+                { // editedProduct = true olunca "price" görüntülenmeyecek. useState kısmında böyle ayarladık. Yani "edit" butonuna basınca price gözükmeyecek. Sağ üstteki "add" simgesine tıklayınca gözükecek
+                    editedProduct ? null : (          
                         <View style={styles.form}>
                             <Text style={styles.label}>Price</Text>
                             <TextInput 
                                 style={styles.input} 
                                 value={price}    
                                 onChangeText={text => setPrice(text)}
+                                keyboardType="number-pad"      // Decimal klavye açılacak
                             />
                         </View>
                     )
@@ -78,6 +82,7 @@ const EditProductsScreen = (props) => {
                         style={styles.input} 
                         value={description}    
                         onChangeText={text => setDescription(text)}
+                        multiline
                     />
                 </View>
             </View>
