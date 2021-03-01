@@ -11,6 +11,8 @@ import cartReducer from './store/reducers/cartReducer';
 import ordersReducer from './store/reducers/ordersReducer';
 
 
+console.disableYellowBox = true;    // Warning mesajlarının gözükmesini engeller
+
 // REDUX
 const rootReducer = combineReducers({
     products: productsReducer,
@@ -68,3 +70,5 @@ export default function App() {
 // Redux Dev Tool Extension  ----->  yarn add redux-devtools-extension  ----->  import { composeWithDevTools } from 'redux-devtools-extension';
 // Custom Font  ----->  expo install expo-font
 // AppLoading  ----->  expo install expo-app-loading
+// Formik  ----->  yarn add formik  ----->  Form validation
+// Yup  ----->  yarn add yup  ----->  Form validation

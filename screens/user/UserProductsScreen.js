@@ -11,12 +11,6 @@ const UserProductsScreen = (props) => {
 
     const dispatch = useDispatch();
 
-    const editProductHandler = (id) => {
-        props.navigation.navigate('EditProductsScreen', {       // Touchable itemlere ve Edit butonuna basınca EditProductsScreen sayfasına yönlendirecek
-            productId: id                                       // EditProductsScreen sayfasına "productId" adlı param'ı yolluyoruz. Param'ı ShopNavigator.js'de alacağız. Buradan aldığımız param sayesinde edit kısmında ilgili iteme ait özellikleri görüntüleyebiliyoruz
-        })
-    }
-
     const deleteHandler = (id) => {
         Alert.alert("Are you sure?", "Do you really want to delete this item?", 
         [
@@ -43,16 +37,7 @@ const UserProductsScreen = (props) => {
                     image={itemData.item.imageURL}
                     title={itemData.item.title}
                     price={itemData.item.price}
-                    onSelect={() => {                             // UserProducts sayfasındaki touchable itemlere yollanan prop. Onlardan birine tıklayınca bu fonksiyonu triggerlıyor
-                        editProductHandler(itemData.item.id);
-                    }}
                 >
-                    <Button 
-                        color={Colors.primary} 
-                        title="Edit" 
-                        onPress={() => {
-                            editProductHandler(itemData.item.id);
-                        }} />
                     <Button 
                         color={Colors.primary}
                         title="Delete"

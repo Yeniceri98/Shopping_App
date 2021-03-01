@@ -1,6 +1,5 @@
 import React from 'react'
 import { StyleSheet, Text, View, Image, Button, TouchableOpacity } from 'react-native'
-import Colors from '../../constants/Colors'
 
 
 const ProductItem = (props) => {
@@ -78,10 +77,11 @@ const styles = StyleSheet.create({
     },
     buttonContainer: {
         flexDirection: "row",
-        justifyContent: "space-between",
+        justifyContent: "space-around",
         alignItems: "center",
         height: "25%",
-        paddingHorizontal: 15
+        paddingHorizontal: 15,
+        marginTop: 12,
     }
 })
 
